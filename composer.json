@@ -1,0 +1,24 @@
+{
+    "name": "seriyyy95/selenium-chrome-library",
+    "description": "A library for Selenium Driver with browser Chrome",
+    "type": "library",
+    "require": {
+        "facebook/webdriver": "^1.7"
+    },
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Seriyyy95",
+            "email": "Seriyyy95@gmail.com"
+        }
+    ],
+    "autoload": {
+	"psr-4": {
+		"Seriyyy95\\SeleniumChromeLibrary\\": "src/"
+	}
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "8.5.x-dev"
+    }
+}
