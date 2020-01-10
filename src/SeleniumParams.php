@@ -16,6 +16,10 @@ class SeleniumParams
     public function __construct()
     {
         $this->setDataSubdir("default");
+	$defaultHost = SeleniumAPI::getInstance()->getDefaultHost();
+	if($defaultHost != null){
+		$this->seleniumHost = $defaultHost;
+	}
     }
 
     public static function setDataPrefix(string $prefix){

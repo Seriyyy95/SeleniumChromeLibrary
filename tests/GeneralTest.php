@@ -8,11 +8,21 @@ use Seriyyy95\SeleniumChromeLibrary\SeleniumAPI;
 
 class StackTest extends TestCase
 {
+
+    public function testSettingHostViaIstance(){
+	SeleniumAPI::resetInstance();
+    	$seleniumAPI = SeleniumAPI::getInstance();
+	$seleniumAPI->setDefaultHost("https://test-host");
+	$params = new SeleniumParams();
+	$host = $params->getHost();
+	$this->assertSame($host, "https://test-host");
+    }
+
     public function testUsingProxy()
     {
+	SeleniumAPI::resetInstance();
 	$params = new SeleniumParams();
 	$params->setProxy("185.221.161.30:9589", "AWtgXV", "aoBsME");
-	SeleniumAPI::resetInstance();
     	$seleniumAPI = SeleniumAPI::getInstance();
     	$browser = $seleniumAPI->getBrowser($params);
 	$browser->open("https://www.myexternalip.com/raw");

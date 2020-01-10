@@ -18,6 +18,7 @@ class SeleniumAPI
     private static $instance = null;
     private $seleniumMap;
     private $lastDriver = null;
+    private $defaultHost = null;
 
     private function __construct()
     {
@@ -26,6 +27,14 @@ class SeleniumAPI
             $seleniumApi = SeleniumAPI::getInstance();
             $seleniumApi->shutdownAllDrivers();
         });
+    }
+
+    public function setDefaultHost(string $host){
+	$this->defaultHost = $host;
+    }
+
+    public function getDefaultHost(){
+	return $this->defaultHost;
     }
 
     public static function getInstance()
@@ -113,8 +122,11 @@ class SeleniumAPI
         $options->addArguments(array("--disable-notifications"));
 //        $options->addArguments(array("--headless"));
         $options->addArguments(array("--disable-gpu"));
+        $options->addArguments(array("--disable-popup-blocking"));
+        $options->addArguments(array('--disable-blink-features="BlockCredentialedSubresources"'));
         $options->addArguments(array("--no-sandbox"));
         $options->addArguments(array("--window-size=1900x800"));
+        $options->addArguments(array("--ignore-certificate-errors"));
         $options->addArguments(array("--user-data-dir=" . $params->getDataPath()));
 //        $options->setBinary("/usr/bin/chromium-browser");
 
@@ -145,7 +157,7 @@ class SeleniumAPI
                 $desiredCapabilities,
                 160 * 1000, // Connection timeout in miliseconds
                 160 * 1000  // Request timeout in miliseconds);
-        );
+	);
         return $driver;
     }
 }
