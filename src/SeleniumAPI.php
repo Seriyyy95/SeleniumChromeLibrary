@@ -109,10 +109,10 @@ class SeleniumAPI
         $sessions = RemoteWebDriver::getAllSessions($host);
         foreach($sessions as $session){
             $sessionPath = $session["capabilities"]["chrome"]["userDataDir"];
-            if($sessionPath == $params->getDataPath()){
+//            if($sessionPath == $params->getDataPath()){
               $driver = RemoteWebDriver::createBySessionID($session["id"], $host);
               $driver->quit();
-            }
+//            }
         }
 
         $desiredCapabilities = DesiredCapabilities::chrome();
@@ -151,13 +151,13 @@ class SeleniumAPI
         }
 
         $desiredCapabilities->setCapability(ChromeOptions::CAPABILITY, $options);
-
-        $driver = RemoteWebDriver::create(
+            $driver = RemoteWebDriver::create(
                 $host,
                 $desiredCapabilities,
                 160 * 1000, // Connection timeout in miliseconds
                 160 * 1000  // Request timeout in miliseconds);
-	);
+            );
+//            shell_exec("ps aux | grep chrom | awk '{print $2}' | xargs kill -TERM");
         return $driver;
     }
 }
