@@ -127,7 +127,9 @@ class SeleniumAPI
         $options->addArguments(array("--no-sandbox"));
         $options->addArguments(array("--window-size=1900x800"));
         $options->addArguments(array("--ignore-certificate-errors"));
-        $options->addArguments(array("--user-data-dir=" . $params->getDataPath()));
+        if ($params->getUseDataPath()) {
+            $options->addArguments(array("--user-data-dir=" . $params->getDataPath()));
+        }
 //        $options->setBinary("/usr/bin/chromium-browser");
 
         if($params->hasProxy()){

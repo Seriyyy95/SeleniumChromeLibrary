@@ -12,6 +12,7 @@ class SeleniumParams
     private $proxyIp = null;
     private $proxyUser = null;
     private $proxyPass = null;
+    private $useDataPath = true;
 
     public function __construct()
     {
@@ -104,5 +105,13 @@ class SeleniumParams
     public function getLoadStrategy()
     {
         return $this->loadStrategy;
+    }
+
+    public function setUseDataPath(bool $flag){
+        $this->useDataPath = $flag;
+    }
+
+    public function getUseDataPath(){
+        return $this->useDataPath;
     }
 }
