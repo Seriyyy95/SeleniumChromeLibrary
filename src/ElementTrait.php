@@ -65,6 +65,16 @@ trait ElementTrait {
         }
     }
 
+    public function hasByName(string $string)
+    {
+        if (count($this->root->findElements(WebDriverBy::tagName($string))) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     public function hasByCssInElement(string $string, $element)
     {
         if (count($element->findElements(WebDriverBy::cssSelector($string))) > 0) {
