@@ -135,6 +135,10 @@ class SeleniumBrowser {
         }
     }
 
+    public function script($code){
+        return $this->driver->executeScript($code);
+    }
+    
     public function takeScreenshot()
     {
         if ($this->driver != null) {
