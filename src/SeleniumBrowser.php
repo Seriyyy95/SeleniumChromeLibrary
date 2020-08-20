@@ -125,6 +125,23 @@ class SeleniumBrowser {
         }, "Request element still on page, timeout");
     }
 
+    public function waitCount(WebDriverBy $selector, $count, $timeout = 5)
+    {
+        $this->driver->wait($timeout, 1000)->until(function () use (&$selector, $count) {
+            $elements = $this->driver->findElements($selector);
+            if (count($elements) >= $count) {
+                return true;
+            }
+        }, "Request element not found, timeout");
+    }
+
+    public function waitCountByCss(string $selector, $count){
+        $driverBy = WebDriverBy::cssSelector($selector);
+        $this->waitCount($driverBy, $count);
+    }
+
+
+
     public function ifAppears(WebDriverBy $selector, $closure, $timeout = 5){
         try{
             $this->waitAppear($selector, $timeout);
