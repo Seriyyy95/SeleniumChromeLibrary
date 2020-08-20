@@ -2,6 +2,17 @@
 
 namespace Seriyyy95\SeleniumChromeLibrary;
 
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\Remote\DriverCommand;
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverElement;
+use Facebook\WebDriver\Interactions\WebDriverActions;
+use Facebook\WebDriver\WebDriverKeys;
+use Facebook\WebDriver\Remote\WebDriverCapabilityType;
+use Facebook\WebDriver\Chrome\ChromeOptions;
+
 trait ElementTrait {
 
     public function has(WebDriverBy $selector, $block = null)
