@@ -99,22 +99,4 @@ trait ElementTrait {
         return $this->list(WebDriverBy::xpath($string));
     }
 
-    public function hasByCssInElement(string $string, $element)
-    {
-        error_log("The method hasByCssInElement is depecated!");
-        if (count($element->findElements(WebDriverBy::cssSelector($string))) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function listByCssInElement(string $string, $element){
-        error_log("The method listByCssInElement is depecated!");
-        return $element->findElements(WebDriverBy::cssSelector($string));
-    }
-
-
-
-
 }
