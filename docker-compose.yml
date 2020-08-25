@@ -1,0 +1,30 @@
+version: '3.5'
+
+networks:
+  app-network:
+
+services:
+  docker-nginx:
+    image: nginx
+    ports:
+      - "7770:80"
+    volumes:
+      - ./docker/nginx/www:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+    networks:
+     - app-network
+  docker-selenium:
+    build:
+      context: ./docker/selenium
+    ports:
+      - 5901:5900
+      - 4444:4444
+    shm_size: '2gb'
+    volumes:
+      - /dev/shm:/dev/shm
+      - /dev/dri:/dev/dri
+    environment:
+      JAVA_OPTS: -Xmx2G
+    networks:
+      - app-network
+ 

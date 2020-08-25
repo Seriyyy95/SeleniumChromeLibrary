@@ -46,10 +46,10 @@ class SeleniumAPI
     }
 
     public static function resetInstance(){
-	if(self::$instance != null){
-		self::$instance->shutdownAllDrivers();
-		self::$instance = null;
-	}
+	    if(self::$instance != null){
+		    self::$instance->shutdownAllDrivers();
+		    self::$instance = null;
+	    }
     }
 
     public function setDataPrefix(string $prefix){

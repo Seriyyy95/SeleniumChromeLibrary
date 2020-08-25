@@ -64,6 +64,11 @@ class SeleniumBrowser {
         return $this->waitVisibility($driverBy);
     }
 
+    public function visibilityByXpath(string $selector)
+    {
+        $driverBy = WebDriverBy::xpath($selector);
+        return $this->waitVisibility($driverBy);
+    }
 
     public function doAndWaitReload($closure)
     {
@@ -81,18 +86,20 @@ class SeleniumBrowser {
                 return true;
             }
         }, "Timeout on waiting for page reloading");
+        return true;
     }
 
-    public function doAndWaitUpdate(WebDriverBy $selector, $closure)
+    public function doAndWaitIncrease(WebDriverBy $selector, $closure, $timeout=20)
     {
-        $id = $this->driver->findElement($selector)->getId();
+        $count = $this->count($selector);
         $closure();
-        $this->driver->wait(5, 1000)->until(function () use ($id, $selector) {
-            $html = $this->driver->findElement($selector);
-            if ($html->getId() != $id) {
+        $this->driver->wait($timeout, 2000)->until(function () use ($count, $selector) {
+            $currentCount = count($this->driver->findElements($selector));
+            if ($currentCount > $count) {
                 return true;
             }
-        }, 5000);
+        }, "Timeout on waiting for increase element");
+        return true;
     }
 
     public function waitAppearByCss(string $selector){
@@ -100,10 +107,22 @@ class SeleniumBrowser {
         $this->waitAppear($driverBy);
     }
 
+    public function waitAppearByXpath(string $selector){
+        $driverBy = WebDriverBy::xpath($selector);
+        $this->waitAppear($driverBy);
+    }
+
+
     public function ifAppearsByCss(string $selector, $closure, $timeout = 5){
         $driverBy = WebDriverBy::cssSelector($selector);
         return $this->ifAppears($driverBy, $closure, $timeout);
     }
+
+    public function ifAppearsByXpath(string $selector, $closure, $timeout = 5){
+        $driverBy = WebDriverBy::xpath($selector);
+        return $this->ifAppears($driverBy, $closure, $timeout);
+    }
+
 
     public function waitAppear(WebDriverBy $selector, $timeout = 5)
     {
@@ -125,7 +144,23 @@ class SeleniumBrowser {
         }, "Request element still on page, timeout");
     }
 
-    public function waitCount(WebDriverBy $selector, $count, $timeout = 5)
+    public function waitDisappearByCss(string $selector){
+        $driverBy = WebDriverBy::cssSelector($selector);
+        $this->waitDisappear($driverBy);
+    }
+
+    public function waitDisappearByXpath(string $selector){
+        $driverBy = WebDriverBy::xpath($selector);
+        $this->waitDisappear($driverBy);
+    }
+
+    public function waitDisappearName(string $selector){
+        $driverBy = WebDriverBy::tagName($selector);
+        $this->waitDisappear($driverBy);
+    }
+
+
+    public function waitCount(WebDriverBy $selector, $count, $timeout = 20)
     {
         $this->driver->wait($timeout, 1000)->until(function () use (&$selector, $count) {
             $elements = $this->driver->findElements($selector);
@@ -140,7 +175,10 @@ class SeleniumBrowser {
         $this->waitCount($driverBy, $count);
     }
 
-
+    public function waitCountByXpath(string $selector, $count){
+        $driverBy = WebDriverBy::xpath($selector);
+        $this->waitCount($driverBy, $count);
+    }
 
     public function ifAppears(WebDriverBy $selector, $closure, $timeout = 5){
         try{
@@ -156,6 +194,10 @@ class SeleniumBrowser {
         return $this->driver->executeScript($code);
     }
     
+    public function sendKeys($string){
+        $this->driver->getKeyboard()->sendKeys($string);
+    }
+
     public function takeScreenshot()
     {
         if ($this->driver != null) {

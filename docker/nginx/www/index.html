@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>Test page</title>
+        <style>
+            #visibility-element {
+                display: none;
+            }
+        </style>
+        <script>
+            document.addEventListener("load", function(){
+                //Клик
+                let clickableBtn = document.querySelector("#clickable");
+                clickableBtn.addEventListener("click", function(){
+                    let clickable_related = document.querySelector("#clickable-related");
+                    clickable_related.innerHTML = "button clicked"
+                },true);
+
+                //Ожидание перезагрузки
+                let reloadBtn = document.querySelector("#reload");
+                reloadBtn.addEventListener("click", function(){
+                    document.location.reload(true);
+                }, true);
+
+                //Ожидание увеличения количества
+                let incBtn = document.querySelector("#increase");
+                incBtn.addEventListener("click", function(){
+                    let incContainer = document.querySelector("#increase-container");
+                    let incElement = document.createElement("span");
+                    incElement.setAttribute("class", "increase-element");
+                    incElement.innerHTML = "Increase element";
+                    incContainer.append(incElement);
+                }, true);
+
+
+                //Появление элемента
+                setTimeout(function(){
+                    let appearContainer = document.querySelector("#appear-container");
+                    let appearElement = document.createElement("div");
+                    appearElement.setAttribute("id", "appear-element");
+                    appearElement.innerHTML = "Appears after 1000 ms";
+                    appearContainer.append(appearElement);
+                }, 1000);
+
+                //Исчезновение элемента
+                setTimeout(function(){
+                    let disappearElement = document.querySelector("#diappear-element");
+                    disappearElement.parentNode.removeChild(disappearElement);
+                }, 2000);
+
+                //Ожидание количества
+                setInterval(function(){
+                    let countContainer = document.querySelector("#count-container");
+                    let countElement = document.createElement("div");
+                    countElement.setAttribute("class", "count-element");
+                    countElement.innerHTML = "Add another count element";
+                    countContainer.append(countElement);
+                }, 3000);
+
+                //Видимость элемента
+                setTimeout(function(){
+                    let visibilityElement = document.querySelector("#visibility-element");
+                    visibilityElement.style.display = "block";
+                }, 1000);
+
+
+            }, true);
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <button id="clickable">Click</button>
+            <span id="clickable-related"></span>
+            <button id="reload">Reload</button>
+            <button id="increase">Increase</button>
+            <div id="increase-container">
+                <span class="increase-element">Increase element 1</span>
+            </div>
+            <div id="appear-container">
+            </div>
+            <span id="diappear-element">This disappears ater 2000 ms</span>
+            <div id="count-container">
+            </div>
+            <div id="list-container">
+                <span class="list-element">1st element</span>
+                <span class="list-element">2nd element</span>
+                <span class="list-element">3rd element</span>
+                <span class="list-element">4th element</span>
+            </div>
+            <div id="visibility-element">This will be visible after 500 ms</div>
+        </div>
+    </body>
+</html>

@@ -3,7 +3,8 @@
     "description": "A library for Selenium Driver with browser Chrome",
     "type": "library",
     "require": {
-        "facebook/webdriver": "^1.7"
+        "facebook/webdriver": "^1.7",
+        "symfony/dotenv": "^5.2@dev"
     },
     "license": "LGPL",
     "authors": [
@@ -13,9 +14,12 @@
         }
     ],
     "autoload": {
-	"psr-4": {
-		"Seriyyy95\\SeleniumChromeLibrary\\": "src/"
-	}
+	    "psr-4": {
+		    "Seriyyy95\\SeleniumChromeLibrary\\": "src/"
+        },
+        "files": [
+            "bootstrap.php"
+        ]
     },
     "minimum-stability": "dev",
     "require-dev": {
