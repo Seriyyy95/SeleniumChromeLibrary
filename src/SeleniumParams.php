@@ -4,11 +4,15 @@ namespace Seriyyy95\SeleniumChromeLibrary;
 
 class SeleniumParams
 {
+    public static $PLATFORM_DESKTOP=0;
+    public static $PLATFORM_MOBILE=1;
+
     private static $dataPrefix = "dir";
     private $seleniumHost = "http://localhost";
     private $seleniumDataDir = "/tmp/Selenium/";
     private $seleniumDataSubdir = "";
     private $loadStrategy = "normal";
+    private $platform = 0;
     private $proxyIp = null;
     private $proxyUser = null;
     private $proxyPass = null;
@@ -66,6 +70,11 @@ class SeleniumParams
         $this->proxyPass = $pass;
     }
 
+    public function setPlatform($platform)
+    {
+        $this->platform = $platform;
+    }
+
     public function hasProxy()
     {
         if ($this->proxyIp) {
@@ -107,11 +116,18 @@ class SeleniumParams
         return $this->loadStrategy;
     }
 
-    public function setUseDataPath(bool $flag){
+    public function setUseDataPath(bool $flag)
+    {
         $this->useDataPath = $flag;
     }
 
-    public function getUseDataPath(){
+    public function getUseDataPath()
+    {
         return $this->useDataPath;
+    }
+
+    public function getPlatform()
+    {
+        return $this->platform;
     }
 }

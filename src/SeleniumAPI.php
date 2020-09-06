@@ -29,12 +29,14 @@ class SeleniumAPI
         });
     }
 
-    public function setDefaultHost(string $host){
-	$this->defaultHost = $host;
+    public function setDefaultHost(string $host)
+    {
+        $this->defaultHost = $host;
     }
 
-    public function getDefaultHost(){
-	return $this->defaultHost;
+    public function getDefaultHost()
+    {
+        return $this->defaultHost;
     }
 
     public static function getInstance()
@@ -45,59 +47,65 @@ class SeleniumAPI
         return self::$instance;
     }
 
-    public static function resetInstance(){
-	    if(self::$instance != null){
-		    self::$instance->shutdownAllDrivers();
-		    self::$instance = null;
-	    }
+    public static function resetInstance()
+    {
+        if (self::$instance != null) {
+            self::$instance->shutdownAllDrivers();
+            self::$instance = null;
+        }
     }
 
-    public function setDataPrefix(string $prefix){
-      $this->shutdownAllDrivers();
-      SeleniumParams::setDataPrefix($prefix);
+    public function setDataPrefix(string $prefix)
+    {
+        $this->shutdownAllDrivers();
+        SeleniumParams::setDataPrefix($prefix);
     }
 
-    public function checkDriver($driver){
-        try{
+    public function checkDriver($driver)
+    {
+        try {
             $url = $driver->getCurrentUrl();
             return true;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return false;
         }
     }
 
     public function getDriver(SeleniumParams $params = null)
     {
-        if($params == null){
+        if ($params == null) {
             $params = new SeleniumParams();
         }
-        if($this->seleniumMap->hasDriver($params)){
-          $driver = $this->seleniumMap->getDriver($params);
-          if (!$this->checkDriver($driver)) {
-              $driver = $this->setupDriver($params);
-              $this->seleniumMap->setDriver($driver, $params);
-          }
-          $this->lastDriver = $driver;
-        }else{
-          $this->lastDriver = $this->setupDriver($params);
-          $this->seleniumMap->addDriver($this->lastDriver, $params);
+        if ($this->seleniumMap->hasDriver($params)) {
+            $driver = $this->seleniumMap->getDriver($params);
+            if (!$this->checkDriver($driver)) {
+                $driver = $this->setupDriver($params);
+                $this->seleniumMap->setDriver($driver, $params);
+            }
+            $this->lastDriver = $driver;
+        } else {
+            $this->lastDriver = $this->setupDriver($params);
+            $this->seleniumMap->addDriver($this->lastDriver, $params);
         }
         return $this->lastDriver;
     }
 
-    public function getBrowser(SeleniumParams $params = null){
+    public function getBrowser(SeleniumParams $params = null)
+    {
         $driver = $this->getDriver($params);
         $browser = new SeleniumBrowser($driver);
         return $browser;
     }
 
-    public function getLastDriver(){
+    public function getLastDriver()
+    {
         return $this->lastDriver;
     }
 
-    public function shutdownAllDrivers(){
+    public function shutdownAllDrivers()
+    {
         $drivers = $this->seleniumMap->allDrivers();
-        foreach($drivers as $driver){
+        foreach ($drivers as $driver) {
             $driver->quit();
         }
     }
@@ -107,11 +115,11 @@ class SeleniumAPI
         $host = $params->getHost() . ':4444/wd/hub';
 
         $sessions = RemoteWebDriver::getAllSessions($host);
-        foreach($sessions as $session){
+        foreach ($sessions as $session) {
             $sessionPath = $session["capabilities"]["chrome"]["userDataDir"];
 //            if($sessionPath == $params->getDataPath()){
-              $driver = RemoteWebDriver::createBySessionID($session["id"], $host);
-              $driver->quit();
+            $driver = RemoteWebDriver::createBySessionID($session["id"], $host);
+            $driver->quit();
 //            }
         }
 
@@ -130,9 +138,12 @@ class SeleniumAPI
         if ($params->getUseDataPath()) {
             $options->addArguments(array("--user-data-dir=" . $params->getDataPath()));
         }
+        if ($params->getPlatform() == SeleniumParams::$PLATFORM_MOBILE) {
+            $options->setExperimentalOption("mobileEmulation", [ "deviceName" => "Pixel 2" ]);
+        }
 //        $options->setBinary("/usr/bin/chromium-browser");
 
-        if($params->hasProxy()){
+        if ($params->hasProxy()) {
             $proxyParams = explode(':', $params->getProxyIp());
             $proxyIp = $proxyParams[0];
             $proxyPort = $proxyParams[1];
@@ -153,12 +164,12 @@ class SeleniumAPI
         }
 
         $desiredCapabilities->setCapability(ChromeOptions::CAPABILITY, $options);
-            $driver = RemoteWebDriver::create(
-                $host,
-                $desiredCapabilities,
-                160 * 1000, // Connection timeout in miliseconds
+        $driver = RemoteWebDriver::create(
+            $host,
+            $desiredCapabilities,
+            160 * 1000, // Connection timeout in miliseconds
                 160 * 1000  // Request timeout in miliseconds);
-            );
+        );
 //            shell_exec("ps aux | grep chrom | awk '{print $2}' | xargs kill -TERM");
         return $driver;
     }
