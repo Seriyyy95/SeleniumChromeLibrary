@@ -13,28 +13,32 @@ use Facebook\WebDriver\WebDriverKeys;
 use Facebook\WebDriver\Remote\WebDriverCapabilityType;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 
-class SeleniumBrowser {
-
+class SeleniumBrowser
+{
     protected $driver;
     protected $root;
 
     use ElementTrait;
 
-    public function __construct($driver){
+    public function __construct($driver)
+    {
         $this->driver = $driver;
         $this->root = $driver;
     }
 
-    public function getDriver(){
-	return $this->driver;
+    public function getDriver()
+    {
+        return $this->driver;
     }
 
-    public function open(string $url){
+    public function open(string $url)
+    {
         $this->driver->get($url);
     }
 
-    public function close(){
-	$this->driver->quit();
+    public function close()
+    {
+        $this->driver->quit();
     }
 
     public function click(WebDriverElement $element)
@@ -57,6 +61,13 @@ class SeleniumBrowser {
             WebDriverExpectedCondition::visibilityOfElementLocated($selector)
         );
     }
+
+    public function visibilityByName(string $selector)
+    {
+        $driverBy = WebDriverBy::tagName($selector);
+        return $this->waitVisibility($driverBy);
+    }
+
 
     public function visibilityByCss(string $selector)
     {
@@ -102,23 +113,27 @@ class SeleniumBrowser {
         return true;
     }
 
-    public function waitAppearByCss(string $selector){
+    public function waitAppearByCss(string $selector)
+    {
         $driverBy = WebDriverBy::cssSelector($selector);
         $this->waitAppear($driverBy);
     }
 
-    public function waitAppearByXpath(string $selector){
+    public function waitAppearByXpath(string $selector)
+    {
         $driverBy = WebDriverBy::xpath($selector);
         $this->waitAppear($driverBy);
     }
 
 
-    public function ifAppearsByCss(string $selector, $closure, $timeout = 5){
+    public function ifAppearsByCss(string $selector, $closure, $timeout = 5)
+    {
         $driverBy = WebDriverBy::cssSelector($selector);
         return $this->ifAppears($driverBy, $closure, $timeout);
     }
 
-    public function ifAppearsByXpath(string $selector, $closure, $timeout = 5){
+    public function ifAppearsByXpath(string $selector, $closure, $timeout = 5)
+    {
         $driverBy = WebDriverBy::xpath($selector);
         return $this->ifAppears($driverBy, $closure, $timeout);
     }
@@ -144,17 +159,20 @@ class SeleniumBrowser {
         }, "Request element still on page, timeout");
     }
 
-    public function waitDisappearByCss(string $selector){
+    public function waitDisappearByCss(string $selector)
+    {
         $driverBy = WebDriverBy::cssSelector($selector);
         $this->waitDisappear($driverBy);
     }
 
-    public function waitDisappearByXpath(string $selector){
+    public function waitDisappearByXpath(string $selector)
+    {
         $driverBy = WebDriverBy::xpath($selector);
         $this->waitDisappear($driverBy);
     }
 
-    public function waitDisappearName(string $selector){
+    public function waitDisappearName(string $selector)
+    {
         $driverBy = WebDriverBy::tagName($selector);
         $this->waitDisappear($driverBy);
     }
@@ -170,31 +188,36 @@ class SeleniumBrowser {
         }, "Request element not found, timeout");
     }
 
-    public function waitCountByCss(string $selector, $count){
+    public function waitCountByCss(string $selector, $count)
+    {
         $driverBy = WebDriverBy::cssSelector($selector);
         $this->waitCount($driverBy, $count);
     }
 
-    public function waitCountByXpath(string $selector, $count){
+    public function waitCountByXpath(string $selector, $count)
+    {
         $driverBy = WebDriverBy::xpath($selector);
         $this->waitCount($driverBy, $count);
     }
 
-    public function ifAppears(WebDriverBy $selector, $closure, $timeout = 5){
-        try{
+    public function ifAppears(WebDriverBy $selector, $closure, $timeout = 5)
+    {
+        try {
             $this->waitAppear($selector, $timeout);
             $closure();
             return true;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return false;
         }
     }
 
-    public function script($code){
+    public function script($code)
+    {
         return $this->driver->executeScript($code);
     }
     
-    public function sendKeys($string){
+    public function sendKeys($string)
+    {
         $this->driver->getKeyboard()->sendKeys($string);
     }
 
