@@ -57,7 +57,7 @@ class SeleniumBrowser
 
     public function waitVisibility(WebDriverBy $selector)
     {
-        $this->driver->wait(5, 3000)->until(
+        $this->driver->wait(10, 3000)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated($selector)
         );
     }
@@ -216,6 +216,34 @@ class SeleniumBrowser
         return $this->driver->executeScript($code);
     }
     
+    public function sendToClipboard($string)
+    {
+        $keyboard = $this->driver->getKeyboard();
+        $this->script("window.open();");
+        $tabs = $this->driver->getWindowHandles();
+        $this->driver->switchTo()->window($tabs[1]);
+        $this->driver->get("data:text/html, <html contenteditable>$string</html>");
+        $keyboard->pressKey(WebDriverKeys::CONTROL);
+        $keyboard->pressKey("a");
+        $keyboard->releaseKey(WebDriverKeys::CONTROL);
+        $keyboard->releaseKey("a");
+        $keyboard->pressKey(WebDriverKeys::CONTROL);
+        $keyboard->pressKey("c");
+        $keyboard->releaseKey(WebDriverKeys::CONTROL);
+        $keyboard->releaseKey("c");
+        $this->driver->close();
+        $this->driver->switchTo()->window($tabs[0]);
+    }
+
+    public function pasteFromClipboard()
+    {
+        $keyboard = $this->driver->getKeyboard();
+        $keyboard->pressKey(WebDriverKeys::CONTROL);
+        $keyboard->pressKey("v");
+        $keyboard->releaseKey(WebDriverKeys::CONTROL);
+        $keyboard->releaseKey("v");
+    }
+
     public function sendKeys($string)
     {
         $this->driver->getKeyboard()->sendKeys($string);
