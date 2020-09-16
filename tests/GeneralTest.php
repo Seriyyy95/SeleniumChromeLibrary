@@ -180,7 +180,7 @@ class StackTest extends TestCase
         $browser = $seleniumAPI->getBrowser();
         $browser->open($_ENV["TEST_HOST"]);
         $browser->visibilityByCss("#clipboard_element");
-        $testString = "Test clip";
+        $testString = "Test clip Тест русский";
         $browser->sendToClipboard($testString);
         $input = $browser->findByCss("#clipboard_element");
         $browser->click($input);

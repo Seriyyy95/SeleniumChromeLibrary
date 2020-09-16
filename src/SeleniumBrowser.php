@@ -223,8 +223,9 @@ class SeleniumBrowser
         sleep(1);
         $tabs = $this->driver->getWindowHandles();
         $this->driver->switchTo()->window($tabs[1]);
-        $this->driver->get("data:text/html, <html contenteditable>$string</html>");
+        $this->driver->get("data:text/html, <html contenteditable></html>");
         sleep(1);
+        $keyboard->sendKeys($string);
         $keyboard->pressKey(WebDriverKeys::CONTROL);
         $keyboard->sendKeys("a");
         $keyboard->releaseKey(WebDriverKeys::CONTROL);
