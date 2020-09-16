@@ -242,8 +242,8 @@ class SeleniumBrowser
         $keyboard = $this->driver->getKeyboard();
         $keyboard->pressKey(WebDriverKeys::CONTROL);
         $keyboard->pressKey("v");
-        $keyboard->releaseKey(WebDriverKeys::CONTROL);
         $keyboard->releaseKey("v");
+        $keyboard->releaseKey(WebDriverKeys::CONTROL);
     }
 
     public function sendKeys($string)
