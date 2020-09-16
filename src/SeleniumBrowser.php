@@ -220,19 +220,18 @@ class SeleniumBrowser
     {
         $keyboard = $this->driver->getKeyboard();
         $this->script("window.open();");
+        sleep(1);
         $tabs = $this->driver->getWindowHandles();
         $this->driver->switchTo()->window($tabs[1]);
         $this->driver->get("data:text/html, <html contenteditable>$string</html>");
         sleep(1);
         $keyboard->pressKey(WebDriverKeys::CONTROL);
-        $keyboard->pressKey("a");
+        $keyboard->sendKeys("a");
         $keyboard->releaseKey(WebDriverKeys::CONTROL);
-        $keyboard->releaseKey("a");
         sleep(1);
         $keyboard->pressKey(WebDriverKeys::CONTROL);
         $keyboard->pressKey("c");
         $keyboard->releaseKey(WebDriverKeys::CONTROL);
-        $keyboard->releaseKey("c");
         sleep(1);
         $this->driver->close();
         $this->driver->switchTo()->window($tabs[0]);
