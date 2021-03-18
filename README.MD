@@ -11,10 +11,21 @@ The library allows you to use Selenium on PHP with Google Chrome/Chromium Web Br
 
 # Install
 
-For installing ChromeSeleniumLibrary just run:
+For installing ChromeSeleniumLibrary just add repo in composer.json:
 
 ```
-composer install seriyyy95/chrome-selenium-library
+"repositories": [
+   {
+      "type": "git",
+      "url": "https://github.com/Seriyyy95/SeleniumChromeLibrary.git"
+   }
+]
+```
+
+And run:
+
+```
+composer require seriyyy95/selenium-chrome-library
 ```
 
 # Use
