@@ -117,10 +117,10 @@ class SeleniumAPI
         $sessions = RemoteWebDriver::getAllSessions($host);
         foreach ($sessions as $session) {
             $sessionPath = $session["capabilities"]["chrome"]["userDataDir"];
-//            if($sessionPath == $params->getDataPath()){
-            $driver = RemoteWebDriver::createBySessionID($session["id"], $host);
-            $driver->quit();
-//            }
+            if($sessionPath == $params->getDataPath()){
+                $driver = RemoteWebDriver::createBySessionID($session["id"], $host);
+                $driver->quit();
+            }
         }
 
         $desiredCapabilities = DesiredCapabilities::chrome();
