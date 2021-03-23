@@ -265,4 +265,10 @@ class SeleniumBrowser
             return "";
         }
     }
+    
+    public function scrollTo($element){
+         $action = new WebDriverActions($this->driver);
+         $action->moveToElement($element);
+         $action->perform();
+    }
 }
