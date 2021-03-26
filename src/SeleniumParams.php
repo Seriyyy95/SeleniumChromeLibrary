@@ -18,6 +18,7 @@ class SeleniumParams
     private $proxyPass = null;
     private $useDataPath = true;
     private $headless = false;
+    private $disableShm = false;
 
     public function __construct()
     {
@@ -76,6 +77,10 @@ class SeleniumParams
         $this->platform = $platform;
     }
 
+    public function setDisableShm($flag){
+        $this->disableShm = $flag;
+    }
+    
     public function hasProxy()
     {
         if ($this->proxyIp) {
@@ -137,5 +142,9 @@ class SeleniumParams
     
     public function getHeadless(){
         return $this->headless;   
+    }
+    
+    public function getDisableShm(){
+        return $this->disableShm;   
     }
 }
