@@ -131,6 +131,7 @@ class SeleniumAPI
         if($params->getHeadless() == true){
             $options->addArguments(array("--headless"));
         }
+        $options->addArguments(array("--disable-setuid-sandbox"));
         $options->addArguments(array("--disable-gpu"));
         $options->addArguments(array("--disable-popup-blocking"));
         $options->addArguments(array('--disable-blink-features="BlockCredentialedSubresources"'));
