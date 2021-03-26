@@ -17,6 +17,7 @@ class SeleniumParams
     private $proxyUser = null;
     private $proxyPass = null;
     private $useDataPath = true;
+    private $headless = false;
 
     public function __construct()
     {
@@ -99,7 +100,10 @@ class SeleniumParams
         return $this->proxyPass;
     }
 
-
+    public function setHeadless($flag)
+    {
+        $this->headless = $flag;   
+    }
 
     public function getHost()
     {
@@ -129,5 +133,9 @@ class SeleniumParams
     public function getPlatform()
     {
         return $this->platform;
+    }
+    
+    public function getHeadless(){
+        return $this->headless;   
     }
 }
